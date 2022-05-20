@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var http = require("http").createServer(app);
 var io = require("socket.io")(http);
+httpProxy = require('http-proxy'),
 
 io.on("connection", (socket) =>{
     var address = socket.request.connection.remoteAddress;
@@ -26,7 +27,6 @@ app.set("view engine","ejs");
 app.get("/", (req,res) => {
     res.render("index")
 })
-
 
 
 http.listen(8000, () => {
