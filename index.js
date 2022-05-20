@@ -6,18 +6,18 @@ var io = require("socket.io")(http);
 io.on("connection", (socket) =>{
     var address = socket.request.connection.remoteAddress;
     console.log('New connection from ' + address);
+
     console.log("Conectou: " + socket.id)
+
     socket.on("disconnect",() => {
         console.log("X desconectou: " + socket.id)
     })
     
-    socket.on("boasvindas",(data) =>{
+    socket.on("msg", (data) => {
+        io.emit("showmsg",data);
+        
         console.log(data);
     })
-    socket.on("palavra",(data) => {
-        console.log(data);
-        socket.emit("resultado", data + " - Guia do Programador");        
-    });
 
 });
 

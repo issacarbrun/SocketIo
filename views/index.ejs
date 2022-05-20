@@ -7,30 +7,39 @@
     <title>Document</title>
 </head>
 <body>
-    <input type="text" name="" id="palavra" oninput="enviar()">
-    <button onclick="">Enviar</button>
-    <hr>
-    <p id="resultado"></p>
+    <h1>Chat Interno</h1>
+    <div id="chat">
+
+    </div><br>
+    <input type="text" name="" id="msg"><br>
+    <button onclick="enviar()">Enviar</button>
+    <input type="text" name="" id="username" placeholder="Seu nome de usuário">
 </body>
 <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
 <script>
     var socket = io("http://localhost:8000");
+
     socket.on("disconnect",()=>{
         console.log("Desconectado")
     });
-    socket.emit("boasvindas",{nome: "Issacar"});
 
-    socket.on("resultado",(data) => {
+    socket.on("showmsg", (data) => {
         console.log(data);
-        var p = document.getElementById("resultado");
-         p.innerHTML = data;
+        var chat = document.getElementById("chat")
+        var p = document.createElement("p");
+        p.innerHTML = data.username + ": " + data.msg
+        chat.append(p)
     })
 
     function enviar(){
-        var input = document.getElementById("palavra");
-        console.log(input.value)
-        socket.emit("palavra",input.value)
+        var msgField = document.getElementById("msg");
+        var usernameField = document.getElementById("username");
 
+        var msg = msgField.value;
+        var username = usernameField.value;
+
+        socket.emit("msg",{msg: msg,username: username})
     }
+    
 </script>
 </html>
