@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="" id="palavra" oninput="enviar()">
+    <button onclick="">Enviar</button>
+    <hr>
+    <p id="resultado"></p>
+</body>
+<script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+<script>
+    var socket = io("http://localhost:8000");
+    socket.on("disconnect",()=>{
+        console.log("Desconectado")
+    });
+    socket.emit("boasvindas",{nome: "Issacar"});
+
+    socket.on("resultado",(data) => {
+        console.log(data);
+        var p = document.getElementById("resultado");
+         p.innerHTML = data;
+    })
+
+    function enviar(){
+        var input = document.getElementById("palavra");
+        console.log(input.value)
+        socket.emit("palavra",input.value)
+
+    }
+</script>
+</html>
