@@ -1,0 +1,6 @@
+#chat{
+    max-height: 400px;
+    min-height: 400px;
+    background-color: aliceblue;
+    overflow-y: scroll;
+}

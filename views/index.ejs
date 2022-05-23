@@ -1,23 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Interno</title>
-    <!-- CSS only -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-</head>
-<style>
-    #chat{
-        max-height: 400px;
-        min-height: 400px;
-        background-color: aliceblue;
-        overflow-y: scroll;
-    }
-</style>
+<%- include ('partials/header.ejs')  %> 
+<%- include ('partials/navbar.ejs')  %> 
 <body>
-    <h1>Chat Interno</h1>
     <div id="chat">
 
     </div><br>
@@ -26,39 +9,4 @@
     <button onclick="enviar()">Enviar</button>
     
 </body>
-<script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
-<script>
-    function padTo2Digits(num) {
-        return String(num).padStart(2, '0');
-    }
-    const date = new Date();
-    function padTo2Digits(num) {
-        return String(num).padStart(2, '0');
-    }
-    const current =  padTo2Digits(date.getHours()) + ':' + padTo2Digits(date.getMinutes());
-    var socket = io();
-
-    socket.on("disconnect",()=>{
-        console.log("Desconectado")
-    });
-
-    socket.on("showmsg", (data) => {
-        console.log(data);
-        var chat = document.getElementById("chat")
-        var p = document.createElement("p");
-        p.innerHTML = '<b><em>'+ current+ '</em></b>' +"     " + data.username + ": " + data.msg;
-        chat.append(p)
-    })
-
-    function enviar(){
-        var msgField = document.getElementById("msg");
-        var usernameField = document.getElementById("username");
-
-        var msg = msgField.value;
-        var username = usernameField.value;
-
-        socket.emit("msg",{msg: msg,username: username})
-    }
-    
-</script>
-</html>
+<%- include ('partials/footer.ejs')  %> 

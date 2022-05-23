@@ -4,6 +4,8 @@ var http = require("http").createServer(app);
 var io = require("socket.io")(http);
 httpProxy = require('http-proxy'),
 
+app.use(express.static('public'))
+
 io.on("connection", (socket) =>{
     var address = socket.request.connection.remoteAddress;
     console.log('New connection from ' + address);
