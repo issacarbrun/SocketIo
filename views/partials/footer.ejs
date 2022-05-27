@@ -3,38 +3,65 @@
 <script src="/js/bootstrap.min.js"></script>
 <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
 <script>
-    function padTo2Digits(num) {
-        return String(num).padStart(2, '0');
-    }
-    const date = new Date();
-    function padTo2Digits(num) {
-        return String(num).padStart(2, '0');
-    }
-    const current =  padTo2Digits(date.getHours()) + ':' + padTo2Digits(date.getMinutes());
+    
     var socket = io();
 
     socket.on("disconnect",()=>{
         console.log("Desconectado")
     });
 
+    function get_Hour(){
+   
+        socket.on("server_time",(data)=> {
+            console.log(`Hora: ${data}`);
+        })
+    }
+
     socket.on("showmsg", (data) => {
         console.log(data);
         var chat = document.getElementById("chat")
         var p = document.createElement("p");
-        p.innerHTML = '<b><em>'+ current+ '</em></b>' +"     " + data.username + ": " + data.msg;
-        chat.append(p)
+        p.innerHTML = '<b><em>'+ data.hour+ '</em></b>' +"     " + data.username + ": " + data.msg;
+        chat.append(p);
+        playSound('/sound/notification_sound.mp3');
     })
 
+function get_Hour(){
+    function padTo2Digits(num) {
+        return String(num).padStart(2, '0');
+    }
+    
+    const date = new Date();
+    
+    function padTo2Digits(num) {
+        return String(num).padStart(2, '0');
+    }
+    const current =  padTo2Digits(date.getHours()) + ':' + padTo2Digits(date.getMinutes());
+
+    return current
+}
+
+
+
     function enviar(){
+        var hour = get_Hour();
         var msgField = document.getElementById("msg");
         var usernameField = document.getElementById("username");
 
         var msg = msgField.value;
         var username = usernameField.value;
 
-        socket.emit("msg",{msg: msg,username: username})
+        socket.emit("msg",{msg: msg,username: username, hour: hour})
+        
     }
-    
+const playSound = (url) => {
+ const audio = new Audio(url);
+ audio.play();
+}
+
+
+  
+
 </script>
 
 </html>

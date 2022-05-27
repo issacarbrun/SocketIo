@@ -6,6 +6,10 @@ httpProxy = require('http-proxy'),
 
 app.use(express.static('public'))
 
+
+
+
+
 io.on("connection", (socket) =>{
     var address = socket.request.connection.remoteAddress;
     console.log('New connection from ' + address);
@@ -17,7 +21,7 @@ io.on("connection", (socket) =>{
     })
     
     socket.on("msg", (data) => {
-        io.emit("showmsg",data);
+        io.emit("showmsg",data);       
         
         console.log(data);
     })
